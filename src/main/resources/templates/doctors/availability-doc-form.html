@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/images/favicon2.png" type="">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/responsive.css}" rel="stylesheet" />
+
+
+    <title>Save availability</title>
+</head>
+
+<body class="sub_page">
+
+<div class="hero_area">
+    <div th:include="fragments :: header"></div>
+</div>
+
+<div class="main-content">
+<section class="layout_padding2">
+    <div class="container">
+
+        <div class="heading_container">
+            <div><h2>Disponibilitatatea ta</h2></div>
+            <p>Ai flexibilitatea de a-ți stabili intervalele disponibile pentru programările pacienților. Te rugăm să selectezi data și ora de început a consultației care se potrivește cel mai bine programului tău.</p>
+
+
+        </div>
+
+        <div class="container mt-5">
+
+
+            <form action="#" th:action="@{/doctors/saveAvailability}"
+                  th:object="${availability}" method="POST">
+
+                <input type="hidden" th:field="*{id}" />
+
+                <label>Selectează pur și simplu intervalul dorit:</label>
+                <input type="datetime-local" id="timeSlot" th:field="*{timeSlot}"
+                       class="form-control mb-4 w-25" placeholder="Select time slot" required>
+
+
+                <button type="submit" class="btn btn-info col-2">Adaugă</button>
+
+            </form>
+            <br>
+
+
+        </div>
+    </div>
+</section>
+</div>
+
+<div th:include="fragments :: footer"></div>
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/images/favicon2.png" type="">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link th:href="@{/css/responsive.css}" rel="stylesheet" />
+
+    <title>Doctor's Availabilities</title>
+</head>
+<body class="sub_page">
+
+<div class="hero_area">
+    <div th:include="fragments :: header"></div>
+</div>
+
+<div class="main-content">
+<section class="layout_padding2">
+    <div class="container">
+
+        <div class="heading_container">
+            <div><h2>Disponibilitatea mea</h2></div>
+            <p>Iți poți seta programul alegând datele și orele în care ești disponibil pentru a consulta pacienții. Adaugă pur și simplu intervalele dorite pentru a te asigura că programul tău reflectă corect disponibilitatea ta.</p>
+        </div>
+
+        <br>
+        <div class="container">
+
+            <a th:href="@{/doctors/showFormForAddAvailability}"
+               class="btn btn-primary btn-sm mb-3">
+                Adaugă
+            </a>
+
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Data și Ora</th>
+                    <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="availability : ${availabilities}">
+
+                    <td th:text="${#temporals.format(availability.timeSlot, 'yyyy-MM-dd HH:mm')}"></td>
+
+
+                    <td>
+                        <a th:href="@{/doctors/deleteAvailability(availabilityId=${availability.id})}"
+                           class="btn btn-secondary btn-sm" style=" color: #DFF6FF;"
+                           onclick="if (!(confirm('Esti sigur ca vrei sa stergi acest interval de timp?'))) return false">
+                            Sterge
+                        </a>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+
+            <nav aria-label="Availabilities Pagination" class="d-flex justify-content-end">
+                <ul class="pagination">
+                    <li th:class="${currentPage == 0} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/doctors/availabilities(page=${currentPage - 1}, size=${size})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:class="${i == currentPage} ? 'page-item active' : 'page-item'">
+                        <a class="page-link" th:href="@{/doctors/availabilities(page=${i}, size=${size})}" th:text="${i + 1}"></a>
+                    </li>
+                    <li th:class="${currentPage == totalPages - 1} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/doctors/availabilities(page=${currentPage + 1}, size=${size})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+</div>
+
+<div th:include="fragments :: footer"></div>
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="shortcut icon" href="/images/favicon2.png" type="">
+    <title>Confirmare inregistrare</title>
+</head>
+
+<body class="bg-light">
+    <div class="container py-5">
+        <h2 class="mb-3">Inregistrare cu succes!</h2>
+
+        <ul class="list-group mb-4">
+            <li class="list-group-item" th:text="'User name: ' + ${webUser.userName}"></li>
+            <li class="list-group-item" th:text="'Prenume: ' + ${webUser.firstName}"></li>
+            <li class="list-group-item" th:text="'Nume: ' + ${webUser.lastName}"></li>
+            <li class="list-group-item" th:text="'Email: ' + ${webUser.email}"></li>
+            <li class="list-group-item" th:text="'Numar de telefon: ' + ${webUser.phoneNumber}"></li>
+            <li class="list-group-item" th:text="${#dates.format(webUser.birthDate, 'yyyy-MM-dd')}"></li>
+            <li class="list-group-item" th:text="'CNP: ' + ${webUser.CNP}"></li>
+        </ul>
+
+        <hr>
+
+        <a th:href="@{/showMyLoginPage}">Autentificare</a>
+    </div>
+</body>
+
+</html>

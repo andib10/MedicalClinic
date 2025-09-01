@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Details</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/images/favicon2.png" type="">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/responsive.css}" rel="stylesheet" />
+
+</head>
+<body class="sub_page">
+
+<div class="hero_area">
+    <div th:include="fragments :: header"></div>
+</div>
+
+<div class="main-content">
+<section class="layout_padding2">
+    <div class="container">
+
+        <div class="heading_container">
+            <div><h2>Detaliile progrămarii</h2></div>
+        </div>
+
+        <div th:if="${success}">
+            <p th:text="${success}" class="alert alert-success"></p>
+        </div>
+        <div th:if="${error}">
+            <p th:text="${error}" class="alert alert-danger"></p>
+        </div>
+
+
+        <div class="container">
+            <hr>
+
+            <div> <span class="info-label">Pacient:</span>
+                <span th:text="${appointment.patient != null ? appointment.patient.user.firstName + ' ' + appointment.patient.user.lastName : 'No Patient Assigned'}"></span></div>
+            <hr>
+
+            <div><span class="info-label">Doctor:</span>
+                <span th:text="${appointment.doctor.user.firstName + ' ' + appointment.doctor.user.lastName}">N/A</span></div>
+            <hr>
+            <div><span class="info-label">Data și Ora:</span>
+                <span th:text="${#temporals.format(appointment.slotStart, 'yyyy-MM-dd HH:mm')}"></span></div>
+
+            <hr>
+            <div>
+                <span class="info-label">Diagnostic:</span>
+                <span th:text="${#strings.isEmpty(visitDetails.diagnosis) ? 'Va fi actualizat dupa consultatie' : visitDetails.diagnosis}">N/A</span>
+            </div>
+            <hr>
+            <div>
+                <span class="info-label">Procedură finalizată:</span>
+                <span th:text="${#strings.isEmpty(visitDetails.procedureCompleted) ? 'Va fi actualizat dupa consultatie' : visitDetails.procedureCompleted}">N/A</span>
+            </div>
+            <hr>
+            <div>
+                <span class="info-label">Recomandare:</span>
+                <span th:text="${#strings.isEmpty(visitDetails.recommendation) ? 'Va fi actualizat dupa consultatie' : visitDetails.recommendation}">N/A</span>
+            </div>
+            <hr>
+            <div th:if="${message}" class="alert alert-info col-md-5">
+                <p th:text="${message}"></p>
+            </div>
+
+        </div>
+    </div>
+</section>
+</div>
+
+<div th:include="fragments :: footer"></div>
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+</body>
+</html>

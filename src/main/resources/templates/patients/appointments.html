@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/images/favicon2.png" type="">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- bootstrap core css -->
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />-->
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/responsive.css}" rel="stylesheet" />
+
+    <title>Patient's Appointments</title>
+</head>
+<body class="sub_page">
+
+<div class="hero_area">
+    <div th:include="fragments :: header"></div>
+</div>
+
+<div class="main-content">
+<section class="layout_padding2">
+    <div class="container">
+
+        <div class="heading_container">
+            <div><h2>Programările mele</h2></div>
+            <hr>
+        </div>
+
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="specialtyFilter" class="form-label">Filtrează după specialitate:</label>
+                <select class="form-select" id="specialtyFilter">
+                    <option value="">Toate specialitățile</option>
+                    <option th:each="specialty : ${specialties}" th:value="${specialty.id}" th:selected="${specialty.id == selectedSpecialtyId}" th:text="${specialty.name}"></option>
+                </select>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label for="doctorFilter" class="form-label">Filtrează după doctor:</label>
+                <select class="form-select" id="doctorFilter">
+                    <option value="">Toți doctorii</option>
+                    <option th:each="doctor : ${doctors}" th:value="${doctor.id}" th:selected="${doctor.id == selectedDoctorId}" th:text="${doctor.user.firstName + ' ' + doctor.user.lastName}"></option>
+                </select>
+            </div>
+
+
+            <div class="col-md-6">
+                <button id="applyFiltersBtn" class="btn btn-info mb-3 mt-4">Caută</button>
+            </div>
+        </div>
+
+        <br>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Specialitate</th>
+                <th>Doctor</th>
+                <th>Data și ora</th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="tempAppointment : ${appointments}">
+
+
+                <td th:text="${tempAppointment.doctor != null ? tempAppointment.doctor.specialty.name : 'Specialty not assigned'}" />
+                <td th:text="${tempAppointment.doctor != null ? tempAppointment.doctor.user.firstName + ' ' + tempAppointment.doctor.user.lastName : 'Doctor not assigned'}" />
+
+                <td th:text="${#temporals.format(tempAppointment.slotStart, 'yyyy-MM-dd HH:mm')}"></td>
+
+                <td>
+                    <a th:href="@{/patients/viewAppointmentDetails/{appointmentId}(appointmentId=${tempAppointment.id})}" class="btn btn-light btn-sm">
+                        Detalii
+                    </a>
+
+                    <a th:if="${tempAppointment.slotStart.isAfter(T(java.time.LocalDateTime).now())}"
+                       th:href="@{/patients/deleteAppointment(appointmentId=${tempAppointment.id})}"
+                       class="btn btn-secondary btn-sm" style="color: #DFF6FF;"
+                       onclick="if (!(confirm('Esti sigur ca vrei sa anulezi aceasta programare?'))) return false">
+                        Anuleaza
+                    </a>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <nav aria-label="Appointments Pagination" class="d-flex justify-content-end">
+            <ul class="pagination">
+                <li th:class="${currentPage == 0} ? 'page-item disabled' : 'page-item'">
+                    <a class="page-link" th:href="@{/patients/appointments(page=${currentPage - 1}, size=${size})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:class="${i == currentPage} ? 'page-item active' : 'page-item'">
+                    <a class="page-link" th:href="@{/patients/appointments(page=${i}, size=${size})}" th:text="${i + 1}"></a>
+                </li>
+                <li th:class="${currentPage == totalPages - 1} ? 'page-item disabled' : 'page-item'">
+                    <a class="page-link" th:href="@{/patients/appointments(page=${currentPage + 1}, size=${size})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+    </div>
+</section> </div>
+
+
+<script>
+    const specialtyFilter = document.getElementById('specialtyFilter');
+    const doctorFilter = document.getElementById('doctorFilter');
+    const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+
+    applyFiltersBtn.addEventListener('click', function() {
+        const selectedSpecialtyId = specialtyFilter.value;
+        const selectedDoctorId = doctorFilter.value;
+        const url = '/patients/appointments?page=0&size=6' +
+            (selectedSpecialtyId ? '&specialtyId=' + selectedSpecialtyId : '') +
+            (selectedDoctorId ? '&doctorId=' + selectedDoctorId : '');
+        window.location.href = url;
+    });
+</script>
+
+<div th:include="fragments :: footer"></div>
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+
+</body>
+</html>

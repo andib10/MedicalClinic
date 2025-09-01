@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/images/favicon2.png" type="">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/responsive.css}" rel="stylesheet" />
+
+    <title>User Profile</title>
+</head>
+
+<body class="sub_page">
+
+<div class="hero_area">
+    <div th:include="fragments :: header"></div>
+</div>
+
+
+<div class="main-content">
+<section class="layout_padding2">
+    <div class="container">
+
+        <div class="heading_container">
+            <div><h2>Profilul meu</h2></div>
+            <p>Aici poți actualiza informațiile contului și schimba parola pentru a asigura securitatea contului tău.</p>
+        </div>
+
+
+        <div class="container mt-4">
+
+
+            <div th:if="${userProfile.role == 'ROLE_DOCTOR'}">
+                <p>Data angajării: <span th:text="${#dates.format(userProfile.hireDate, 'yyyy-MM-dd')}"></span></p>
+            </div>
+            <div th:if="${userProfile.role == 'ROLE_PATIENT'}">
+                <p>Data nașterii: <span th:text="${#dates.format(userProfile.birthDate, 'yyyy-MM-dd')}"></span></p>
+                <p>CNP: <span th:text="${userProfile.CNP}"></span></p>
+            </div>
+
+            <form action="#" th:action="@{/users/updateProfile}"
+                  th:object="${user}" method="POST">
+
+                <input type="hidden" th:field="*{id}" />
+
+                <label>Username:</label>
+                <input type="text" th:field="*{userName}"
+                       class="form-control mb-4 w-25" placeholder="Username" disabled >
+
+                <label>Email:</label>
+                <input type="email" th:field="*{email}"
+                       class="form-control mb-4 w-25" placeholder="Email" required>
+
+                <label>Prenume:</label>
+                <input type="text" th:field="*{firstName}"
+                       class="form-control mb-4 w-25" placeholder="First Name" required>
+
+                <label>Nume:</label>
+                <input type="text" th:field="*{lastName}"
+                       class="form-control mb-4 w-25" placeholder="Last Name" required>
+
+                <button type="submit" class="btn btn-info col-2">Salvează</button>
+
+
+            </form>
+            <div class="mb-4 w-25" th:if="${success}">
+                <p th:text="${success}" class="alert alert-success"></p>
+            </div>
+            <div class="mb-4 w-25" th:if="${error}">
+                <p th:text="${error}" class="alert alert-danger"></p>
+            </div>
+            <hr>
+
+            <div>
+                <p>Din motive de securitate, recomandăm schimbarea în mod regulat a parolei.</p>
+                <a th:href="@{/users/changePassword}" class="btn btn-outline-primary">Schimbă parola</a>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+<div th:include="fragments :: footer"></div>
+
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+
+</body>
+
+
+
+</html>
+
+
+
+
+
+

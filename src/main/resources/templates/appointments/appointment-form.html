@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/images/favicon2.png" type="">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/responsive.css}" rel="stylesheet" />
+
+    <title>Save Appointment</title>
+</head>
+
+<body class="sub_page">
+
+<div class="hero_area">
+
+
+    <div th:include="fragments :: header"></div>
+</div>
+
+<div class="main-content">
+<section class="department_section layout_padding">
+    <div class="department_container">
+        <div class="container ">
+            <div class="heading_container ">
+                <h2>
+                    Save Appointment
+                </h2>
+            </div>
+
+        <div class="container">
+            <hr>
+
+
+            <form action="#" th:action="@{/appointments/save}"
+                  th:object="${appointment}" method="POST">
+
+                <input type="hidden" th:field="*{id}" />
+                <label>Patient:</label>
+                <select th:field="*{patient.id}" class="form-control mb-4 w-25">
+                    <option th:each="patient : ${patients}"
+                            th:value="${patient.id}"
+                            th:text="${patient.user.firstName + ' ' + patient.user.lastName}"
+                            th:selected="${appointment.patient != null && patient.id.equals(appointment.patient.id)}">
+                    </option>
+                </select>
+
+                <label>Doctor:</label>
+                <select th:field="*{doctor.id}" class="form-control mb-4 w-25">
+                    <option th:each="doctor : ${doctors}"
+                            th:value="${doctor.id}"
+                            th:text="${doctor.user.firstName + ' ' + doctor.user.lastName}"
+                            th:selected="${appointment.doctor != null && doctor.id.equals(appointment.doctor.id)}">
+                    </option>
+                </select>
+
+                <label>Date and Time:</label>
+                <input type="datetime-local" id="timeSlot" th:field="*{slotStart}"
+                       class="form-control mb-4 w-25" placeholder="Select time slot">
+
+                <button type="submit" class="btn btn-info col-2">Save</button>
+
+            </form>
+
+            <hr>
+
+        </div>
+        </div>
+        </div>
+</section>
+</div>
+
+<div th:include="fragments :: footer"></div>
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+

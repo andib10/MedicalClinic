@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Fragments</title>
+</head>
+<body>
+
+<div th:fragment="header">
+    <header class="header_section">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+                <a class="navbar-brand">
+                <span>
+                  CliniCare
+                </span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class=""> </span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="${session.user != null} ?
+                    (${session.user.role.name == 'ROLE_DOCTOR'} ? '/doctor' :
+                    (${session.user.role.name == 'ROLE_PATIENT'} ? '/patient' :
+                    (${session.user.role.name == 'ROLE_ADMIN'} ? '/admin' : '/showMyLoginPage')))
+                    : '/showMyLoginPage'">
+                                <i class="fa fa-user" aria-hidden="true" style="font-size: 35px;"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+</div>
+
+
+<div th:fragment="footer">
+    <footer class="footer_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-3 footer_col">
+                    <div class="footer_contact">
+                        <h4>
+                            Contactați-ne
+                        </h4>
+                        <div class="contact_link_box">
+                            <a>
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                <span>Str. Academiei nr. 14, București</span>
+                            </a>
+                            <a>
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                <span>+01 1234567890</span>
+                            </a>
+                            <a href="mailto:medcliniccare@gmail.com">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <span>medcliniccare@gmail.com</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 footer_col">
+                    <div class="footer_detail">
+                        <h4>
+                            Program
+                        </h4>
+                        <p>
+                            Clinica noastră vă primește de la ora <strong>9 AM </strong> la <strong>6 PM</strong>. Ne bucurăm să vă oferim sprijinul necesar pentru sănătatea dumneavoastră în acest interval orar.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+</body>
+</html>

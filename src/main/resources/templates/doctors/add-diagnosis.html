@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Diagnosis</title>
+    <link rel="shortcut icon" href="/images/favicon2.png" type="">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/responsive.css}" rel="stylesheet" />
+
+</head>
+<body class="sub_page">
+
+<div class="hero_area">
+    <div th:include="fragments :: header"></div>
+</div>
+
+<div class="main-content">
+<section class="layout_padding2">
+    <div class="container">
+
+        <div class="heading_container">
+            <div><h2> Adaugă detalii</h2></div>
+        </div>
+
+        <div class="container mt-4">
+            <form th:action="@{/doctors/saveDiagnosis}" th:object="${visitDetails}" method="post">
+
+                <input type="hidden" name="appointmentId" th:value="${appointmentId}" />
+
+
+                <div class="mb-3">
+                    <label class="form-label">Diagnostic</label>
+                    <input type="text" class="form-control" th:field="*{diagnosis}" placeholder="Diagnostic" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Procedură finalizată</label>
+                    <input type="text" class="form-control" th:field="*{procedureCompleted}" placeholder="Procedura finalizată" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Recomandare</label>
+                    <input type="text" class="form-control" th:field="*{recommendation}" placeholder="Recomandare" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Adaugă</button>
+            </form>
+        </div>
+    </div>
+</section>
+</div>
+
+<div th:include="fragments :: footer"></div>
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+
+</body>
+</html>

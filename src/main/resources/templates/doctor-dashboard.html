@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="shortcut icon" href="images/favicon2.png" type="">
+    <title>Doctor Dashboard</title>
+
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/responsive.css}" rel="stylesheet" />
+
+</head>
+<body class="sub_page">
+
+<div class="hero_area">
+    <div th:include="fragments :: header"></div>
+
+</div>
+
+
+
+<div class="main-content">
+<section class="layout_padding">
+    <div class="container">
+
+        <div class="heading_container">
+
+            <div th:if="${session.user}" >
+                <h2 th:text="'Bine ați venit, Dr. ' + ${session.user.firstName} + ' ' + ${session.user.lastName}"></h2>
+            </div>
+
+            <p>
+                Puteți vizualiza istoricul programărilor, adăuga informații pentru fiecare consultație, gestiona profilul personal, dar și să vă setați disponibilitatea pentru noile programări.
+            </p>
+
+
+        </div>
+
+        <div class="mb-3" style="display: flex; justify-content: flex-end;">
+            <form action="#" th:action="@{/logout}"
+                  method="POST">
+                <input type="submit" value="Deconectare" class="btn btn-outline-primary mt-2"/>
+            </form>
+        </div>
+        <hr>
+
+
+        <div class="container my-5">
+            <div class="row text-center g-3">
+
+                <div class="col-md-4">
+                    <a th:href="@{/doctors/appointments}" class="card-link">
+                        <div class="card">
+                            <div class="card-body">
+                                <i class="fa fa-calendar"></i>
+                                <p>Programările mele</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-4">
+                    <a th:href="@{/doctors/availabilities}" class="card-link">
+                        <div class="card">
+                            <div class="card-body">
+                                <i class="fa fa-calendar-plus-o"></i>
+                                <p>Gestionarea dipsonibilității</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+                <div class="col-md-4">
+                    <a th:href="@{/users/profile}" class="card-link">
+                        <div class="card">
+                            <div class="card-body">
+                                <i class="fa fa-user"></i>
+                                <p>Profilul meu</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+    </div>
+</section>
+</div>
+
+
+
+<div th:include="fragments :: footer"></div>
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+
+</body>
+</html>

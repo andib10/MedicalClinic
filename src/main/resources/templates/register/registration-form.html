@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Registration Form</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/images/favicon2.png" type="">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/registrations/registration-5/assets/css/registration-5.css">
+
+</head>
+
+<body>
+
+<section class="p-3 p-md-4 p-xl-5">
+    <div class="container">
+        <div class="card border-light-subtle shadow-sm">
+            <div class="row g-0">
+                <div class="col-12 col-md-6 text-bg-primary">
+                    <div class="d-flex align-items-center justify-content-center h-100">
+                        <div class="col-10 col-xl-8 py-3">
+                            <img class="img-fluid rounded mb-4" loading="lazy" src="/images/clinicIcon.png" width="100" height="30" alt="Our Logo">
+                            <h1>CLINICARE</h1>
+                            <hr class="border-primary-subtle mb-4">
+                            <h2 class="h1 mb-4">Servicii medicale de calitate</h2>
+                            <p class="lead m-0">Suntem aici pentru sănătatea și bunăstarea dumneavoastră, asigurându-ne că fiecare pacient beneficiază de îngrijire personalizată.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="card-body p-3 p-md-4 p-xl-5">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-5">
+                                    <h2 class="h3">Înregistrare</h2>
+                                    <h3 class="fs-6 fw-normal text-secondary m-0">Completați formularul de mai jos</h3>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <form action="#" th:action="@{/register/processRegistrationForm}"
+                              th:object="${webUser}" method="POST">
+
+                            <!-- Place for messages: error, alert etc -->
+                            <div class="form-group">
+                                <div class="col-xs-15">
+                                    <div>
+
+                                        <div th:if="${registrationError}">
+                                            <div class="alert alert-danger">
+                                                <span th:text="${registrationError}">Nume de utilizator deja existent.</span>
+                                            </div>
+                                        </div>
+
+                                        <div th:if="${param.registrationError}">
+                                            <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                                <span th:text="${param.registrationError}">Nume de utilizator deja existent.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row gy-3 gy-md-4 overflow-hidden">
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label">Prenume <span class="text-danger">*</span></label>
+                                    <input type="text" th:field="*{firstName}" class="form-control" name="firstName" id="firstName" placeholder="First Name" required>
+                                </div>
+                                <div th:if="${#fields.hasErrors('firstName')}"
+                                     style="margin-bottom: 25px" class="text-danger">
+                                    <ul>
+                                        <li th:each="err : ${#fields.errors('firstName')}" th:text="'First name ' + ${err}" />
+                                    </ul>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">Nume <span class="text-danger">*</span></label>
+                                    <input type="text" th:field="*{lastName}" class="form-control" name="lastName" id="lastName" placeholder="Last Name" required>
+                                </div>
+                                <div th:if="${#fields.hasErrors('lastName')}"
+                                     style="margin-bottom: 25px" class="text-danger">
+                                    <ul>
+                                        <li th:each="err : ${#fields.errors('lastName')}" th:text="'Last name ' + ${err}" />
+                                    </ul>
+                                </div>
+
+
+                                <div class="col-12">
+                                    <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+                                    <input type="text" th:field="*{userName}" class="form-control" name="username" id="username" placeholder="UserName" required>
+                                </div>
+                                <div th:if="${#fields.hasErrors('userName')}"
+                                     style="margin-bottom: 25px" class="text-danger">
+                                    <ul>
+                                        <li th:each="err : ${#fields.errors('userName')}" th:text="'User name ' + ${err}" />
+                                    </ul>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                    <input type="email" th:field="*{email}" class="form-control" name="email" id="email" placeholder="name@example.com" required>
+                                </div>
+                                <div th:if="${#fields.hasErrors('email')}"
+                                     style="margin-bottom: 25px" class="text-danger">
+                                    <ul>
+                                        <li th:each="err : ${#fields.errors('email')}" th:text="' ' + ${err}" />
+                                    </ul>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="password" class="form-label">Parolă <span class="text-danger">*</span></label>
+                                    <input type="password" th:field="*{password}" class="form-control" name="password" id="password" value="" required>
+                                </div>
+                                <div th:if="${#fields.hasErrors('password')}"
+                                     style="margin-bottom: 25px" class="text-danger">
+                                    <ul>
+                                        <li th:each="err : ${#fields.errors('password')}" th:text="' ' + ${err}" />
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="phoneNumber" class="form-label">Număr de telefon <span class="text-danger">*</span></label>
+                                    <input type="text" th:field="*{phoneNumber}" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="0712341234" required>
+                                </div>
+                                <div th:if="${#fields.hasErrors('phoneNumber')}"
+                                     style="margin-bottom: 25px" class="text-danger">
+                                    <ul>
+                                        <li th:each="err : ${#fields.errors('phoneNumber')}" th:text="'Phone Number ' + ${err}" />
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="CNP" class="form-label">CNP <span class="text-danger">*</span></label>
+                                    <input type="text" th:field="*{CNP}" class="form-control" name="CNP" id="CNP" placeholder="501352391243" required>
+                                </div>
+                                <div th:if="${#fields.hasErrors('CNP')}"
+                                     style="margin-bottom: 25px" class="text-danger">
+                                    <ul>
+                                        <li th:each="err : ${#fields.errors('phoneNumber')}" th:text="'CNP ' + ${err}" />
+                                    </ul>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="birthDate" class="form-label">Data nașterii <span class="text-danger">*</span></label>
+                                    <input type="date" th:field="*{birthDate}" class="form-control" name="birthDate" id="birthDate" placeholder="date" required>
+                                </div>
+                                <div th:if="${#fields.hasErrors('birthDate')}"
+                                     style="margin-bottom: 25px" class="text-danger">
+                                    <ul>
+                                        <li th:each="err : ${#fields.errors('phoneNumber')}" th:text="'Birth Date ' + ${err}" />
+                                    </ul>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="d-grid">
+                                        <button class="btn bsb-btn-xl btn-primary" type="submit">Înregistrare</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="mt-5 mb-4 border-secondary-subtle">
+                                <p class="m-0 text-secondary text-center">Aveți deja un cont? <a th:href="@{/showMyLoginPage}" class="link-primary text-decoration-none">Autentificare</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

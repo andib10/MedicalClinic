@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Book Appointment</title>
+    <link rel="shortcut icon" href="/images/favicon2.png" type="">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/responsive.css}" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body class="sub_page">
+
+<div class="hero_area">
+    <div th:include="fragments :: header"></div>
+</div>
+
+<div class="main-content">
+
+<section class="layout_padding2">
+    <div class="container">
+
+        <div class="heading_container">
+            <div><h2> Programează o consultație</h2></div>
+            <p>Completați formularul de mai jos alegând specialitatea, medicul și data dorită pentru programare.</p><br>
+        </div>
+
+        <div class="container mt-5">
+            <form id="appointmentForm" th:action="@{/patients/bookAppointment}" method="post" class="needs-validation" novalidate>
+                <div class="col-md-6 mb-3">
+                    <label for="specialty" class="form-label">Specialitate:</label>
+                    <select id="specialty" name="specialtyId" class="form-select">
+                        <option value="">Alege o specialitate</option>
+                        <option th:each="specialty : ${specialties}"
+                                th:value="${specialty.id}"
+                                th:text="${specialty.name}"></option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="doctors" class="form-label">Doctor:</label>
+                    <select id="doctors" name="doctorId" class="form-select" disabled>
+                        <option value="">Mai întâi alege o specialitate</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="timeslots" class="form-label">Timeslot:</label>
+                    <select id="timeslots" name="timeSlot" class="form-select" disabled>
+                        <option value="">Mai întâi alege un doctor</option>
+                    </select>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary" disabled>Confirmă programarea</button>
+            </form>
+        </div>
+    </div>
+
+</section>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#specialty').change(function() {
+            var specialtyId = $(this).val();
+            if (specialtyId) {
+                $.getJSON('/patients/doctors/' + specialtyId, function(data) {
+                    var doctors = $('#doctors');
+                    doctors.empty().append('<option value="">--Alege un doctor--</option>');
+                    data.forEach(function(doctor) {
+                        doctors.append('<option value="' + doctor.id + '">' + doctor.firstName + ' ' + doctor.lastName + '</option>');
+                    });
+                    doctors.prop('disabled', false);
+                });
+            }
+        });
+
+        $('#doctors').change(function() {
+            var doctorId = $(this).val();
+            if (doctorId) {
+                $.getJSON('/patients/availabilities/' + doctorId, function(data) {
+                    var timeslots = $('#timeslots');
+                    timeslots.empty().append('<option value="">--Alege un timeslot--</option>');
+                    data.forEach(function(availability) {
+                        timeslots.append('<option value="' + availability.timeSlot + '">' +
+                            availability.timeSlot + '</option>');
+                    });
+                    timeslots.prop('disabled', false);
+                    $('#appointmentForm button').prop('disabled', false);
+                });
+            }
+        });
+
+        $('#appointmentForm').submit(function(e) {
+            e.preventDefault();
+            var form = $(this);
+            $.post('/patients/bookAppointment', form.serialize(), function() {
+                window.location.href = '/patients/appointments';
+            });
+        });
+    });
+</script>
+
+<div th:include="fragments :: footer"></div>
+
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+
+
+</body>
+</html>
